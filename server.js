@@ -8,10 +8,10 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files
+// Serve static files from public directory
 app.use(express.static(path.join(__dirname, "public")));
 
-// Health check - useful when working with Docker
+// Health check - useful for Docker and load balancers
 app.get("/health", (req, res) => {
     res.status(200).json({
         status: "UP",
@@ -30,6 +30,7 @@ app.post("/api/book", (req, res) => {
         travelClass
     } = req.body;
 
+    // Validate required fields
     if (!from || !to || !departure || !passengers) {
         return res.status(400).json({
             success: false,
@@ -37,10 +38,15 @@ app.post("/api/book", (req, res) => {
         });
     }
 
+    // Generate demo booking ID
     const bookingId =
         "SKY-" +
-        Math.random().toString(36).substring(2, 8).toUpperCase();
+        Math.random()
+            .toString(36)
+            .substring(2, 8)
+            .toUpperCase();
 
+    // Return booking response
     res.json({
         success: true,
         bookingId,
@@ -55,8 +61,10 @@ app.post("/api/book", (req, res) => {
     });
 });
 
-// Fallback
-app.get("*", (req, res) => {
+// Fallback route
+// Express 5 does not support app.get("*", ...)
+// so app.use() is used instead.
+app.use((req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 

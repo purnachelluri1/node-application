@@ -1,12 +1,17 @@
 {
   "name": "skybook-flight-booking",
   "version": "1.0.0",
-  "description": "Static Node.js flight ticket booking application for Docker learning",
+  "description": "SkyBook flight booking application",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node dist/server.js",
+    "build": "esbuild server.js --bundle --platform=node --target=node18 --outfile=dist/server.js"
   },
   "dependencies": {
     "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
   }
 }
+
