@@ -1,0 +1,12 @@
+{
+  "name": "skybook-flight-booking",
+  "version": "1.0.0",
+  "description": "Static Node.js flight ticket booking application for Docker learning",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

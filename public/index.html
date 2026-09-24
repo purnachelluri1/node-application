@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SkyBook — Flight Booking</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        /* HEADER */
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e9f2;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: auto;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: #1769ff;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: #1769ff;
+            color: white;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #586174;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: #1769ff;
+        }
+
+        .login-btn {
+            border: 1px solid #dce2ed;
+            background: white;
+            padding: 10px 18px;
+            border-radius: 9px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* HERO */
+
+        .hero {
+            background:
+                linear-gradient(
+                    120deg,
+                    #0d47c9,
+                    #1769ff,
+                    #4f8cff
+                );
+
+            color: white;
+            padding: 65px 20px 130px;
+        }
+
+        .hero-content {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .hero-label {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.85;
+            margin-bottom: 14px;
+        }
+
+        .hero h1 {
+            font-size: 44px;
+            max-width: 650px;
+            line-height: 1.15;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            max-width: 600px;
+            color: #dce8ff;
+            line-height: 1.7;
+        }
+
+        /* SEARCH CARD */
+
+        .search-wrapper {
+            max-width: 1100px;
+            margin: -75px auto 0;
+            position: relative;
+            z-index: 5;
+            padding: 0 20px;
+        }
+
+        .search-card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 20px 50px rgba(24, 47, 88, 0.16);
+        }
+
+        .trip-type {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 22px;
+        }
+
+        .trip-type label {
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1.3fr 1fr 0.7fr auto;
+            gap: 12px;
+            align-items: end;
+        }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #687287;
+            margin-bottom: 7px;
+        }
+
+        .field select,
+        .field input {
+            width: 100%;
+            height: 48px;
+            border: 1px solid #dce2ec;
+            border-radius: 9px;
+            padding: 0 12px;
+            font-family: inherit;
+            background: white;
+            color: #172033;
+            outline: none;
+        }
+
+        .field select:focus,
+        .field input:focus {
+            border-color: #1769ff;
+        }
+
+        .search-btn {
+            height: 48px;
+            border: none;
+            background: #1769ff;
+            color: white;
+            padding: 0 25px;
+            border-radius: 9px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background: #0754db;
+        }
+
+        /* CONTENT */
+
+        .container {
+            max-width: 1100px;
+            margin: 55px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+
+        .section-title h2 {
+            font-size: 23px;
+        }
+
+        .section-title span {
+            color: #1769ff;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* DESTINATIONS */
+
+        .destinations {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .destination {
+            background: white;
+            border-radius: 15px;
+            padding: 23px;
+            border: 1px solid #e7ebf2;
+            transition: 0.2s;
+        }
+
+        .destination:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(26, 47, 80, 0.08);
+        }
+
+        .route {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 17px;
+        }
+
+        .city {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .arrow {
+            color: #1769ff;
+            font-size: 22px;
+        }
+
+        .destination small {
+            color: #778095;
+        }
+
+        .price {
+            margin-top: 20px;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .price span {
+            color: #7a8498;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* FEATURES */
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature {
+            background: white;
+            border: 1px solid #e7ebf2;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .feature-icon {
+            width: 45px;
+            height: 45px;
+            background: #eaf2ff;
+            color: #1769ff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 20px;
+        }
+
+        .feature h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .feature p {
+            color: #778095;
+            line-height: 1.6;
+            font-size: 13px;
+        }
+
+        /* MODAL */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 21, 42, 0.6);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: white;
+            width: 100%;
+            max-width: 480px;
+            border-radius: 18px;
+            padding: 30px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 17px;
+            border: none;
+            background: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-card h2 {
+            margin-bottom: 10px;
+        }
+
+        .booking-details {
+            background: #f4f7fb;
+            padding: 18px;
+            border-radius: 10px;
+            margin: 20px 0;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            height: 48px;
+            border: none;
+            border-radius: 9px;
+            background: #1769ff;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #101827;
+            color: #aeb8ca;
+            padding: 35px 20px;
+            margin-top: 70px;
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        footer strong {
+            color: white;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            nav {
+                display: none;
+            }
+
+            .search-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .search-btn {
+                width: 100%;
+            }
+
+            .destinations,
+            .features {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .search-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .destinations,
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="navbar">
+
+        <div class="logo">
+            <div class="logo-icon">✈</div>
+            SkyBook
+        </div>
+
+        <nav>
+            <a href="#">Flights</a>
+            <a href="#">Deals</a>
+            <a href="#">Destinations</a>
+            <a href="#">My Trips</a>
+        </nav>
+
+        <button class="login-btn">Sign In</button>
+
+    </div>
+
+</header>
+
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-label">
+            Simple. Fast. Reliable.
+        </div>
+
+        <h1>
+            Find your next flight and explore the world.
+        </h1>
+
+        <p>
+            Search destinations, compare fares and book your next
+            journey with SkyBook.
+        </p>
+
+    </div>
+
+</section>
+
+
+<div class="search-wrapper">
+
+    <div class="search-card">
+
+        <div class="trip-type">
+
+            <label>
+                <input type="radio" name="trip" checked>
+                Round trip
+            </label>
+
+            <label>
+                <input type="radio" name="trip">
+                One way
+            </label>
+
+        </div>
+
+
+        <form id="bookingForm">
+
+            <div class="search-grid">
+
+                <div class="field">
+
+                    <label>FROM</label>
+
+                    <select id="from">
+                        <option value="Hyderabad">Hyderabad (HYD)</option>
+                        <option value="Delhi">Delhi (DEL)</option>
+                        <option value="Mumbai">Mumbai (BOM)</option>
+                        <option value="Bangalore">Bangalore (BLR)</option>
+                        <option value="Chennai">Chennai (MAA)</option>
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>TO</label>
+
+                    <select id="to">
+                        <option value="Delhi">Delhi (DEL)</option>
+                        <option value="Hyderabad">Hyderabad (HYD)</option>
+                        <option value="Mumbai">Mumbai (BOM)</option>
+                        <option value="Bangalore">Bangalore (BLR)</option>
+                        <option value="Chennai">Chennai (MAA)</option>
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>DEPARTURE</label>
+
+                    <input
+                        type="date"
+                        id="departure"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>PASSENGERS</label>
+
+                    <select id="passengers">
+
+                        <option value="1">1 Adult</option>
+                        <option value="2">2 Adults</option>
+                        <option value="3">3 Adults</option>
+                        <option value="4">4 Adults</option>
+
+                    </select>
+
+                </div>
+
+
+                <button class="search-btn" type="submit">
+                    Search Flights
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<main class="container">
+
+    <section>
+
+        <div class="section-title">
+
+            <h2>Popular Routes</h2>
+
+            <span>View all routes →</span>
+
+        </div>
+
+
+        <div class="destinations">
+
+            <div class="destination">
+
+                <div class="route">
+                    <div class="city">HYD</div>
+                    <div class="arrow">→</div>
+                    <div class="city">DEL</div>
+                </div>
+
+                <small>Hyderabad → Delhi</small>
+
+                <div class="price">
+                    ₹4,999
+                    <span>/ person</span>
+                </div>
+
+            </div>
+
+
+            <div class="destination">
+
+                <div class="route">
+                    <div class="city">BLR</div>
+                    <div class="arrow">→</div>
+                    <div class="city">BOM</div>
+                </div>
+
+                <small>Bangalore → Mumbai</small>
+
+                <div class="price">
+                    ₹3,799
+                    <span>/ person</span>
+                </div>
+
+            </div>
+
+
+            <div class="destination">
+
+                <div class="route">
+                    <div class="city">MAA</div>
+                    <div class="arrow">→</div>
+                    <div class="city">HYD</div>
+                </div>
+
+                <small>Chennai → Hyderabad</small>
+
+                <div class="price">
+                    ₹3,299
+                    <span>/ person</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section style="margin-top: 55px;">
+
+        <div class="section-title">
+            <h2>Why SkyBook?</h2>
+        </div>
+
+
+        <div class="features">
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ✓
+                </div>
+
+                <h3>Easy Booking</h3>
+
+                <p>
+                    Search and book your flights through
+                    a simple and intuitive interface.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ₹
+                </div>
+
+                <h3>Transparent Pricing</h3>
+
+                <p>
+                    See clear fares without complicated
+                    booking steps or hidden surprises.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ⚡
+                </div>
+
+                <h3>Fast Experience</h3>
+
+                <p>
+                    Designed as a lightweight application
+                    that responds quickly to your requests.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div class="footer-content">
+
+        <div>
+            <strong>SkyBook</strong>
+            <br>
+            <small>Plan your journey with confidence.</small>
+        </div>
+
+        <div>
+            <small>© 2026 SkyBook. Demo application.</small>
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- BOOKING MODAL -->
+
+<div class="modal" id="bookingModal">
+
+    <div class="modal-card">
+
+        <button class="close" id="closeModal">
+            ×
+        </button>
+
+        <h2>Flight Search</h2>
+
+        <p>
+            Your flight search has been submitted.
+        </p>
+
+        <div class="booking-details" id="bookingDetails">
+        </div>
+
+        <button class="confirm-btn" id="confirmBooking">
+            Confirm Demo Booking
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const form = document.getElementById("bookingForm");
+
+    const modal = document.getElementById("bookingModal");
+
+    const closeModal = document.getElementById("closeModal");
+
+    const details = document.getElementById("bookingDetails");
+
+    const confirmBooking =
+        document.getElementById("confirmBooking");
+
+
+    form.addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        const from =
+            document.getElementById("from").value;
+
+        const to =
+            document.getElementById("to").value;
+
+        const departure =
+            document.getElementById("departure").value;
+
+        const passengers =
+            document.getElementById("passengers").value;
+
+
+        if (from === to) {
+
+            alert("FROM and TO cities cannot be the same.");
+
+            return;
+        }
+
+
+        try {
+
+            const response = await fetch("/api/book", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    from,
+                    to,
+                    departure,
+                    passengers,
+                    travelClass: "Economy"
+
+                })
+
+            });
+
+
+            const data = await response.json();
+
+
+            if (!data.success) {
+
+                alert(data.message);
+
+                return;
+            }
+
+
+            details.innerHTML = `
+
+                <strong>Booking ID:</strong>
+                ${data.bookingId}
+                <br>
+
+                <strong>Route:</strong>
+                ${data.details.from}
+                → ${data.details.to}
+                <br>
+
+                <strong>Departure:</strong>
+                ${data.details.departure}
+                <br>
+
+                <strong>Passengers:</strong>
+                ${data.details.passengers}
+                <br>
+
+                <strong>Class:</strong>
+                ${data.details.travelClass}
+
+            `;
+
+
+            modal.classList.add("active");
+
+        } catch (error) {
+
+            alert("Unable to connect to the server.");
+
+            console.error(error);
+
+        }
+
+    });
+
+
+    closeModal.addEventListener("click", function() {
+
+        modal.classList.remove("active");
+
+    });
+
+
+    confirmBooking.addEventListener("click", function() {
+
+        alert(
+            "Demo booking confirmed successfully!"
+        );
+
+        modal.classList.remove("active");
+
+    });
+
+</script>
+
+</body>
+
+</html>
+
